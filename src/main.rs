@@ -5,5 +5,4 @@ use zero2prod::run;
 async fn main() -> std::io::Result<()> {
     let address = TcpListener::bind("0.0.0.0:0")?;
     run(address)?.await
-
 }
