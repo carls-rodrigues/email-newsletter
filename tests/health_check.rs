@@ -1,12 +1,20 @@
-use zero2prod::main;
+#[tokio::test]
+async fn health_check_works() {
+// Arrange
+    spawn_app();
+    let client = reqwest::Client::new();
+// Act
+    let response = client
+        .get("http://127.0.0.1:8000/health_check")
+        .send()
+        .await
+        .expect("Failed to execute request.");
+// Assert
+    assert!(response.status().is_success());
+    assert_eq!(Some(0), response.content_length());
+}
 
-#[cfg(test)]
-mod tests {
-    use crate::health_check;
-
-    #[tokio::test]
-    async fn health_check_succeeds() {
-        let response = health_check().await;
-        assert!(response.status().is_success());
-    }
+fn spawn_app() {
+    let server = zero2prod::run().expect("Failed to bind address");
+    let _ = tokio::spawn(server);
 }
