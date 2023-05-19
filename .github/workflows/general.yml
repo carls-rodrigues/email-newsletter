@@ -8,11 +8,13 @@ on:
   # this specific branch (a.k.a. book chapter).
   push:
     branches:
-      - develop, feature/*
+      - develop
+      - 'feature/**'
   pull_request:
     types: [ opened, synchronize, reopened ]
     branches:
-      - main, develop
+      - main
+      - develop
 
 env:
   CARGO_TERM_COLOR: always
